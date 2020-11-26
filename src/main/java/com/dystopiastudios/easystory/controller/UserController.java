@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Tag(name = "users", description = "Users API")
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://easystory-open.web.app")
 public class UserController {
     @Autowired
     private ModelMapper mapper;
@@ -53,14 +53,6 @@ public class UserController {
             @Parameter(description="User Id")
             @PathVariable(name = "id") Long userId) {
         return convertToResource(userService.getUserById(userId));
-    }
-
-    @Operation(summary = "Get User by username", description = "Get a User by specifying username", tags = { "users" })
-    @GetMapping("/users/{username}")
-    public UserResource getUserByUsername(
-            @Parameter(description="User Id")
-            @PathVariable(name = "username") String username) {
-        return convertToResource(userService.getUserByUsername(username));
     }
 
     @PostMapping("/users")

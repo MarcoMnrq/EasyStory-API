@@ -56,14 +56,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-        user.setSubscriptions(subscriptionRepository.findByUserId(user.getId(), Pageable.unpaged()).getSize());
-        user.setSubscribers(subscriptionRepository.findBySubscribedId(user.getId(), Pageable.unpaged()).getSize());
-        return user;
-    }
-
-    @Override
     public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }

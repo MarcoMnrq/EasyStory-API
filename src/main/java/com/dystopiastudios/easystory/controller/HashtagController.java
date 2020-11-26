@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Tag(name = "hashtags", description = "Hashtags API")
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://easystory-open.web.app")
 public class HashtagController {
     @Autowired
     private ModelMapper mapper;

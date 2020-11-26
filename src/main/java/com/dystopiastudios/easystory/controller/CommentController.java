@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Tag(name = "comments", description = "Comments desc")
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://easystory-open.web.app")
 public class CommentController {
     @Autowired
     private ModelMapper mapper;
