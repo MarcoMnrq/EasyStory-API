@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 @Transactional
-@CrossOrigin(origins = "https://easystory-open.web.app")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PostController {
 
     @Autowired
