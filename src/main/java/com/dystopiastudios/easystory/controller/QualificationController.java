@@ -51,7 +51,7 @@ public class QualificationController {
     @GetMapping("/users/{userId}/posts/{postId}/qualifications")
     public QualificationResource getQualificationByUserIdAndPostId(@PathVariable(name = "userId") Long userId,
                                                          @PathVariable(name= "postId") Long postId){
-        return convertToResource(qualificationService.getQualificationByPostIdAndUserId(userId, postId));
+        return convertToResource(qualificationService.getQualificationByUserIdAndPostId(userId, postId));
     }
     @DeleteMapping("/users/{userId}/posts/{postId}/qualifications")
     public ResponseEntity<?> deleteQualification(

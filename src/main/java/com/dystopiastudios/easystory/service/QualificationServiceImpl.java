@@ -26,8 +26,8 @@ public class QualificationServiceImpl implements QualificationService {
     @Autowired
     private PostRepository postRepository;
     @Override
-    public Qualification getQualificationByPostIdAndUserId(Long userId, Long postId) {
-        return qualificationRepository.findByPostIdAndUserId(userId, postId)
+    public Qualification getQualificationByUserIdAndPostId(Long userId, Long postId) {
+        return qualificationRepository.findByUserIdAndPostId(userId, postId)
                 .orElseThrow(()->new ResourceNotFoundException("Qualification not found with Id" + postId +  "and UserId" + userId));
     }
 
@@ -35,13 +35,14 @@ public class QualificationServiceImpl implements QualificationService {
     public Qualification createQualification(Long userId, Long postId, Qualification qualification) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", postId));
-        Optional<Qualification> existingQualification = qualificationRepository.findByPostIdAndUserId(userId, postId);
+        Optional<Qualification> existingQualification = qualificationRepository.findByUserIdAndPostId(userId, postId);
         if (!existingQualification.isEmpty()){
             throw new IllegalArgumentException("El usuario ya tiene un qualification con este postId");
+        }else {
+            qualification.setUser(user);
+            qualification.setPost(post);
+            return qualificationRepository.save(qualification);
         }
-        qualification.setUser(user);
-        qualification.setPost(post);
-        return  qualificationRepository.save(qualification);
 
     }
 
@@ -57,7 +58,7 @@ public class QualificationServiceImpl implements QualificationService {
 
     @Override
     public Qualification updateQualification(Long userId, Long postId, Qualification qualificationDetails) {
-        Qualification qualification = qualificationRepository.findByPostIdAndUserId(userId,postId).orElseThrow(()->
+        Qualification qualification = qualificationRepository.findByUserIdAndPostId(userId,postId).orElseThrow(()->
                 new ResourceNotFoundException("Qualification not found with Id" + postId +  "and UserId" + userId));
         qualification.setQualification(qualificationDetails.getQualification());
         return qualificationRepository.save(qualification);
@@ -65,7 +66,7 @@ public class QualificationServiceImpl implements QualificationService {
 
     @Override
     public ResponseEntity<?> deleteQualification(Long userId, Long postId) {
-        Qualification qualification = qualificationRepository.findByPostIdAndUserId(userId,postId).orElseThrow(()->
+        Qualification qualification = qualificationRepository.findByUserIdAndPostId(userId,postId).orElseThrow(()->
                 new ResourceNotFoundException("Qualification not found with Id" + postId +  "and UserId" + userId));
         qualificationRepository.delete(qualification);
         return ResponseEntity.ok().build();

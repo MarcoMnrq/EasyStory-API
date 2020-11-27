@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface QualificationService {
-    Qualification getQualificationByPostIdAndUserId(Long userId, Long postId);
+    Qualification getQualificationByUserIdAndPostId(Long userId, Long postId);
     Qualification createQualification(Long userId, Long postId,Qualification qualification);
     Page<Qualification> getAllQualificationsByUserId(Long userId, Pageable pageable);
     Page<Qualification> getAllQualificationsByPostId(Long postId, Pageable pageable);
