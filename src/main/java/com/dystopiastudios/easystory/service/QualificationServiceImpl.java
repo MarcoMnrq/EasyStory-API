@@ -57,7 +57,7 @@ public class QualificationServiceImpl implements QualificationService {
     }
 
     @Override
-    public Qualification updateQualification(Long userId, Long postId, Qualification qualificationDetails) {
+    public Qualification editQualification(Long userId, Long postId, Qualification qualificationDetails) {
         Qualification qualification = qualificationRepository.findByUserIdAndPostId(userId,postId).orElseThrow(()->
                 new ResourceNotFoundException("Qualification not found with Id" + postId +  "and UserId" + userId));
         qualification.setQualification(qualificationDetails.getQualification());

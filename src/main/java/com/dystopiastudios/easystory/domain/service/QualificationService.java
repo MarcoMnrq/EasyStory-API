@@ -10,7 +10,7 @@ public interface QualificationService {
     Qualification createQualification(Long userId, Long postId,Qualification qualification);
     Page<Qualification> getAllQualificationsByUserId(Long userId, Pageable pageable);
     Page<Qualification> getAllQualificationsByPostId(Long postId, Pageable pageable);
-    Qualification updateQualification(Long userId,Long postId, Qualification qualificationDetails);
+    Qualification editQualification(Long userId,Long postId, Qualification qualificationDetails);
     ResponseEntity<?> deleteQualification(Long userId, Long postId);
     Page<Qualification>getAllQualifications(Pageable pageable);
 }

@@ -48,6 +48,13 @@ public class QualificationController {
                                            @Valid @RequestBody SaveQualificationResource resource){
         return convertToResource(qualificationService.createQualification(userId,postId,convertToEntity(resource)));
     }
+    @PutMapping("/users/{userId}/posts/{postId}/qualifications")
+    public QualificationResource editQualification(@PathVariable(name = "userId")Long userId,
+                                                     @PathVariable(name = "postId") Long postId,
+                                                     @Valid @RequestBody SaveQualificationResource resource){
+        return convertToResource(qualificationService.editQualification(userId,postId,convertToEntity(resource)));
+    }
+
     @GetMapping("/users/{userId}/posts/{postId}/qualifications")
     public QualificationResource getQualificationByUserIdAndPostId(@PathVariable(name = "userId") Long userId,
                                                          @PathVariable(name= "postId") Long postId){
