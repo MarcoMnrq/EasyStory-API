@@ -55,9 +55,9 @@ public class QualificationImplIntegrationTest {
         qualification.setUser(user);
         qualification.setPost(post);
 
-        when(qualificationRepository.findByPostIdAndUserId(user.getId(),post.getId())).thenReturn(Optional.of(qualification));
+        when(qualificationRepository.findByUserIdAndPostId(user.getId(),post.getId())).thenReturn(Optional.of(qualification));
         //Act
-        Qualification foundQualification=qualificationService.getQualificationByPostIdAndUserId(user.getId(), post.getId());
+        Qualification foundQualification=qualificationService.getQualificationByUserIdAndPostId(user.getId(), post.getId());
         //Assert
         assertThat(foundQualification.getUser().getId()).isEqualTo(Id);
         assertThat(foundQualification.getPost().getId()).isEqualTo(Id);
@@ -72,11 +72,11 @@ public class QualificationImplIntegrationTest {
         user.setId(Id);
         post.setId(Id);
         String template = "Resource %s not found for %s with value %s";
-        when(qualificationRepository.findByPostIdAndUserId(user.getId(), post.getId())).thenReturn(Optional.empty());
+        when(qualificationRepository.findByUserIdAndPostId(user.getId(), post.getId())).thenReturn(Optional.empty());
         String expectedMessage = String.format(template, "UserId", Id, "PostId", Id);
         //Act
         Throwable exception = catchThrowable(() -> {
-            Qualification foundQualification = qualificationService.getQualificationByPostIdAndUserId(Id, Id);
+            Qualification foundQualification = qualificationService.getQualificationByUserIdAndPostId(Id, Id);
         });
         //Assert
         assertThat(exception).isInstanceOf(ResourceNotFoundException.class);
