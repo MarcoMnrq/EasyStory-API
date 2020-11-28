@@ -10,6 +10,7 @@ import com.dystopiastudios.easystory.resource.SaveSubscriptionResource;
 import com.dystopiastudios.easystory.resource.SubscriptionResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class SubscriptionController {
         return new PageImpl<>(subscriptions, pageable, subscriptionsCount);
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/users/{userId}/subscribers")
     public Page<SubscriptionResource> getAllSubscribersByUserId(
             @PathVariable(name = "userId") Long userId, Pageable pageable){
@@ -55,18 +57,22 @@ public class SubscriptionController {
         return new PageImpl<>(subscribers, pageable, subscribersCount);
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/users/{userId}/subscriptions/{subscribedId}")
     public SubscriptionResource getSubscriptionByUserIdAndSubscribedId(@PathVariable(name = "userId") Long userId,
                                                          @PathVariable(name= "subscribedId") Long subscribedId){
         return convertToResource(subscriptionService.getSubscriptionByUserIdAndSubscribedId(userId, subscribedId));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @PostMapping("/users/{userId}/subscriptions/{subscribedId}")
     public SubscriptionResource createSubscription(@PathVariable(name = "userId")Long userId,
                                            @PathVariable(name = "subscribedId") Long subscribedId,
                                            @Valid @RequestBody SaveSubscriptionResource resource){
         return convertToResource(subscriptionService.createSubscription(userId, subscribedId,convertToEntity(resource)));
     }
+
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @DeleteMapping("/users/{userId}/subscriptions/{subscribedId}")
     public ResponseEntity<?> deleteSubscription(
             @PathVariable(name = "userId") Long userId,
@@ -74,6 +80,7 @@ public class SubscriptionController {
         return subscriptionService.deleteSubscription(userId, subscribedId);
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/subscriptions")
     public Page<SubscriptionResource> getAllSubscriptions(
             @Parameter(description = "Pageable Parameter")

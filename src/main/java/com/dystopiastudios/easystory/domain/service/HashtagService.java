@@ -17,4 +17,6 @@ public interface HashtagService {
     Hashtag updateHashtag(Long HashtagId, Hashtag tagDetails);
 
     ResponseEntity<?> deleteHashtag(Long HashtagId);
+
+    Hashtag getHashtagByName(String name);
 }

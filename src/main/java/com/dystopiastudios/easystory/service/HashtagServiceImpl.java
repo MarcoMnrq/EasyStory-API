@@ -66,4 +66,11 @@ public class HashtagServiceImpl implements HashtagService {
         }).orElseThrow(() -> new ResourceNotFoundException("Hashtag", "Id", hashtagId));
 
     }
+
+    @Override
+    public Hashtag getHashtagByName(String name){
+        return hashtagRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("Hashtag", "Name", name));
+
+    }
 }

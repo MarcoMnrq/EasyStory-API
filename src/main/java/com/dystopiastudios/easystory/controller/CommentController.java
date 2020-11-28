@@ -4,6 +4,8 @@ import com.dystopiastudios.easystory.domain.model.Comment;
 import com.dystopiastudios.easystory.resource.CommentResource;
 import com.dystopiastudios.easystory.resource.SaveCommentResource;
 import com.dystopiastudios.easystory.domain.service.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ public class CommentController {
         return convertToResource(commentService.createComment(userId, postId, convertToEntity(resource)));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/posts/{postId}/comments")
     public Page<CommentResource> getAllCommentsByPostId(
             @PathVariable(name = "postId") Long postId,
@@ -44,6 +47,7 @@ public class CommentController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/users/{userId}/comments")
     public Page<CommentResource> getAllCommentsByUserId(
             @PathVariable(name = "userId") Long userId,
@@ -53,12 +57,14 @@ public class CommentController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/comments/{commentId}")
     public CommentResource getCommentById(
             @PathVariable(name = "commentId") Long commentId) {
         return convertToResource(commentService.getCommentById(commentId));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @PutMapping("/comments/{commentId}")
     public CommentResource updateComment(
             @PathVariable(name = "commentId") Long commentId,
@@ -66,6 +72,7 @@ public class CommentController {
         return convertToResource(commentService.updateComment(commentId, convertToEntity(resource)));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @DeleteMapping("/comments/{commentId}")
     public ResponseEntity<?> deleteComment(
             @PathVariable(name = "commentId") Long commentId) {

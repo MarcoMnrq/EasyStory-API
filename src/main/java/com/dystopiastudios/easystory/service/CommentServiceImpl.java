@@ -29,6 +29,13 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
+    public Comment getCommentByUserIdAndPostId(Long userId, Long postId) {
+        return commentRepository.findByUserIdAndPostId(userId, postId)
+                .orElseThrow(()->new ResourceNotFoundException("Comment not found with Id" + postId +  "and UserId" + userId));
+    }
+
+
+    @Override
     public Page<Comment> getAllCommentsByPostId(Long postId, Pageable pageable) {
         return commentRepository.findByPostId(postId, pageable);
     }

@@ -9,6 +9,7 @@ import com.dystopiastudios.easystory.domain.service.BookmarkService;
 import com.dystopiastudios.easystory.resource.SaveHashtagResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class BookmarkController {
     @Autowired
     private BookmarkService bookmarkService;
 
+    //@Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/users/{userId}/bookmarks")
     public Page<BookmarkResource>getAllBookmarksByUserId(
             @PathVariable(name = "userId") Long userId, Pageable pageable){
@@ -44,6 +46,7 @@ public class BookmarkController {
         return new PageImpl<>(bookmarks, pageable, bookmark_count);
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @PostMapping("/users/{userId}/posts/{postId}/bookmarks")
     public BookmarkResource createBookmark(@PathVariable(name = "userId")Long userId,
                                            @PathVariable(name = "postId") Long postId,
@@ -51,12 +54,14 @@ public class BookmarkController {
         return convertToResource(bookmarkService.createBookmark(userId,postId,convertToEntity(resource)));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/users/{userId}/posts/{postId}/bookmarks")
     public BookmarkResource getBookmarkByUserIdAndPostId(@PathVariable(name = "userId") Long userId,
                                                          @PathVariable(name= "postId") Long postId){
         return convertToResource(bookmarkService.getBookmarkByUserIdAndPostId(userId, postId));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @DeleteMapping("/users/{userId}/posts/{postId}/bookmarks")
     public ResponseEntity<?> deleteBookmark(
             @PathVariable(name = "userId") Long userId,
@@ -64,7 +69,7 @@ public class BookmarkController {
         return bookmarkService.deleteBookmark(userId, postId);
     }
 
-    @Operation(summary = "Get Bookmarks", description = "Get All Bookmarks by Pages", tags = { "bookmarks"} )
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/bookmarks")
     public Page<BookmarkResource>getAllBookmarks(
             @Parameter(description = "Pageable Parameter")

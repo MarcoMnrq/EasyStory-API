@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Get Users", description = "Get All Users by Pages", tags = { "users" })
+    @Operation(summary = "Get Users", description = "Get All Users by Pages", tags = { "users" },security={ @SecurityRequirement(name="Authorization") })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All Posts returned", content = @Content(mediaType = "application/json"))
     })
@@ -47,7 +48,8 @@ public class UserController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-    @Operation(summary = "Get User by Id", description = "Get a User by specifying Id", tags = { "users" })
+
+    @Operation(summary = "Get User by Id", description = "Get a User by specifying Id", tags = { "users" },security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/users/{id}")
     public UserResource getUserById(
             @Parameter(description="User Id")
@@ -55,18 +57,21 @@ public class UserController {
         return convertToResource(userService.getUserById(userId));
     }
 
+    //@Operation(security={ @SecurityRequirement(name="Authorization") })
     @PostMapping("/users")
     public UserResource createUser(@Valid @RequestBody SaveUserResource resource)  {
         User user = convertToEntity(resource);
         return convertToResource(userService.createUser(user));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @PutMapping("/users/{id}")
     public UserResource updateUser(@PathVariable(name = "id") Long userId, @Valid @RequestBody SaveUserResource resource) {
         User user = convertToEntity(resource);
         return convertToResource(userService.updateUser(userId, user));
     }
 
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable(name = "id") Long userId) {
         return userService.deleteUser(userId);

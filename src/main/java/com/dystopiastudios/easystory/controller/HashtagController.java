@@ -5,6 +5,8 @@ import com.dystopiastudios.easystory.resource.HashtagResource;
 import com.dystopiastudios.easystory.resource.SaveHashtagResource;
 import com.dystopiastudios.easystory.domain.service.HashtagService;
 import com.dystopiastudios.easystory.domain.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class HashtagController {
 
     @Autowired
     private HashtagService hashtagService;
+
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/hashtags")
     public Page<HashtagResource> getAllHashtags(Pageable pageable) {
         List<HashtagResource> hashtags= hashtagService.getAllHashtags(pageable)
@@ -35,6 +39,7 @@ public class HashtagController {
         int hashtagcount=hashtags.size();
         return new PageImpl<>(hashtags, pageable, hashtagcount);
     }
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/posts/{postId}/hashtags")
     public Page<HashtagResource> getAllHashtagsByPostId(@PathVariable(name = "postId") Long postId, Pageable pageable){
         List<HashtagResource> hashtags= hashtagService.getAllHashtagsByPostId(postId,pageable)
@@ -42,18 +47,26 @@ public class HashtagController {
         int hashtagcount = hashtags.size();
         return new PageImpl<>(hashtags, pageable, hashtagcount);
     }
+
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @GetMapping("/hashtags/{id}")
     public HashtagResource getHashtagById(@PathVariable(name = "id") Long hashtagId){
         return convertToResource(hashtagService.getHashtagById(hashtagId));
     }
+
+    //@Operation(security={ @SecurityRequirement(name="Authorization") })
     @PostMapping("/hashtags")
     public HashtagResource createHashtag(@Valid @RequestBody SaveHashtagResource resource){
         return convertToResource(hashtagService.createHashtag(convertToEntity(resource)));
     }
+
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @PutMapping("/hashtags/{id}")
     public HashtagResource updateHashtag(@PathVariable(name = "id") Long hashtagId, @Valid @RequestBody SaveHashtagResource resource){
         return convertToResource(hashtagService.updateHashtag(hashtagId, convertToEntity(resource)));
     }
+
+    @Operation(security={ @SecurityRequirement(name="Authorization") })
     @DeleteMapping("/hashtags/{id}")
     public ResponseEntity<?> deleteTag(@PathVariable(name = "id") Long hashtagId) {
 
