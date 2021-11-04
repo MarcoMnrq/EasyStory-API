@@ -30,7 +30,7 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
-
+    @Operation (summary = "Authenticate user account")
     @PostMapping("/sign-in")
     public ResponseEntity<?> generateAuthenticationToken(
             @RequestBody AuthenticationRequest request)
